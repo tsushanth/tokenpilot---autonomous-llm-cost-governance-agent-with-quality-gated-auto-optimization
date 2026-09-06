@@ -1,0 +1,56 @@
+{
+  "name": "refund_bot",
+  "baseline_model": "claude-opus-5",
+  "prompt_template": "You are a refund policy assistant. Please carefully and politely determine the customer's exact refund eligibility, amount, and timeline in order to fully resolve their request. Kindly cite the specific policy.\n\nRequest: {input}",
+  "quality_tolerance": 0.1,
+  "eval_cases": [
+    {
+      "id": "damaged_item",
+      "input": "My item arrived damaged, what refund am I entitled to?",
+      "scorer": "keyword_overlap",
+      "expected": ["full refund", "damaged", "14 days", "policy"],
+      "mock_baseline": "Per our damaged-goods policy, you're entitled to a full refund within 14 days of delivery.",
+      "mock_candidate": "Sorry to hear that. Please contact support for help."
+    },
+    {
+      "id": "late_delivery",
+      "input": "My order was delivered 3 weeks late, can I get a partial refund?",
+      "scorer": "keyword_overlap",
+      "expected": ["partial refund", "shipping fee", "late", "policy"],
+      "mock_baseline": "Under our late-delivery policy, you qualify for a partial refund covering the shipping fee.",
+      "mock_candidate": "We appreciate your patience. Please contact support for help."
+    },
+    {
+      "id": "wrong_size",
+      "input": "I ordered the wrong size, can I return it for a refund?",
+      "scorer": "keyword_overlap",
+      "expected": ["exchange", "30 days", "refund", "policy"],
+      "mock_baseline": "Per our exchange policy, you can return it within 30 days for a full refund or exchange.",
+      "mock_candidate": "Please contact support and they can look into it."
+    },
+    {
+      "id": "subscription_refund",
+      "input": "I was charged after canceling, can I get that refunded?",
+      "scorer": "keyword_overlap",
+      "expected": ["billing error", "full refund", "policy", "5 business days"],
+      "mock_baseline": "That's a billing error under our policy; you'll receive a full refund within 5 business days.",
+      "mock_candidate": "That doesn't sound right. Please contact support for help."
+    },
+    {
+      "id": "gift_return",
+      "input": "Can I get a refund on a gift I received?",
+      "scorer": "keyword_overlap",
+      "expected": ["gift", "store credit", "policy", "60 days"],
+      "mock_baseline": "Per our gift-return policy, you can receive store credit within 60 days of the original purchase.",
+      "mock_candidate": "Please contact support for help with that."
+    },
+    {
+      "id": "digital_purchase",
+      "input": "Can I get a refund on a digital purchase I haven't used?",
+      "scorer": "keyword_overlap",
+      "expected": ["digital", "refund", "policy", "7 days"],
+      "mock_baseline": "Under our digital-goods policy, unused purchases are refundable within 7 days.",
+      "mock_candidate": "Please reach out to support for assistance."
+    }
+  ]
+}

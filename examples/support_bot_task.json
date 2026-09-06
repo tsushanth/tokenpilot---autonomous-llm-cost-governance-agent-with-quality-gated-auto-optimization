@@ -1,0 +1,72 @@
+{
+  "name": "support_bot",
+  "baseline_model": "claude-opus-5",
+  "prompt_template": "You are a helpful customer support assistant. Please carefully and politely answer the customer's question in order to resolve their issue. Kindly be concise.\n\nQuestion: {input}",
+  "quality_tolerance": 0.1,
+  "eval_cases": [
+    {
+      "id": "reset_password",
+      "input": "How do I reset my password?",
+      "scorer": "keyword_overlap",
+      "expected": ["settings", "reset", "email", "link"],
+      "mock_baseline": "Go to Settings > Security and click Reset Password. You'll get an email with a reset link.",
+      "mock_candidate": "Go to Settings, click Reset Password. Check your email for the reset link."
+    },
+    {
+      "id": "cancel_subscription",
+      "input": "How can I cancel my subscription?",
+      "scorer": "keyword_overlap",
+      "expected": ["account", "billing", "cancel", "subscription"],
+      "mock_baseline": "Open your Account page, go to Billing, and click Cancel Subscription.",
+      "mock_candidate": "Go to Account > Billing and click Cancel Subscription."
+    },
+    {
+      "id": "change_email",
+      "input": "Can I change the email address on my account?",
+      "scorer": "keyword_overlap",
+      "expected": ["account", "email", "settings", "verify"],
+      "mock_baseline": "Yes, go to Account Settings, update your email, and verify the new address.",
+      "mock_candidate": "Yes, in Account Settings update your email and verify it."
+    },
+    {
+      "id": "invoice_download",
+      "input": "Where can I download my past invoices?",
+      "scorer": "keyword_overlap",
+      "expected": ["billing", "invoices", "download"],
+      "mock_baseline": "Your invoices are under Billing > Invoices, where you can download each one as a PDF.",
+      "mock_candidate": "Under Billing > Invoices you can download each invoice."
+    },
+    {
+      "id": "upgrade_plan",
+      "input": "How do I upgrade to the Pro plan?",
+      "scorer": "keyword_overlap",
+      "expected": ["billing", "plan", "upgrade", "pro"],
+      "mock_baseline": "Go to Billing, select Plans, and choose the Pro plan to upgrade.",
+      "mock_candidate": "Go to Billing > Plans and choose Pro to upgrade."
+    },
+    {
+      "id": "two_factor",
+      "input": "How do I enable two-factor authentication?",
+      "scorer": "keyword_overlap",
+      "expected": ["security", "two-factor", "settings", "enable"],
+      "mock_baseline": "Go to Security Settings and enable two-factor authentication with the toggle.",
+      "mock_candidate": "In Security Settings, enable two-factor authentication."
+    },
+    {
+      "id": "export_data",
+      "input": "Can I export all my data?",
+      "scorer": "keyword_overlap",
+      "expected": ["settings", "export", "data"],
+      "mock_baseline": "Yes, go to Settings > Data and click Export All Data to download an archive.",
+      "mock_candidate": "Yes, in Settings > Data click Export All Data."
+    },
+    {
+      "id": "delete_account",
+      "input": "How do I permanently delete my account?",
+      "scorer": "keyword_overlap",
+      "expected": ["settings", "delete", "account", "permanently"],
+      "mock_baseline": "Go to Account Settings, scroll to Danger Zone, and click Delete Account permanently.",
+      "mock_candidate": "In Account Settings, Danger Zone, click Delete Account permanently."
+    }
+  ]
+}
