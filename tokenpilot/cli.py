@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -12,8 +13,23 @@ from tokenpilot.providers import AnthropicProvider, MockProvider
 
 
 def cmd_run(args) -> int:
-    task = store.load_task(args.task_file)
-    provider = MockProvider(task.eval_cases) if args.mock else AnthropicProvider(api_key=args.api_key)
+    try:
+        task = store.load_task(args.task_file)
+    except FileNotFoundError as e:
+        print(f"Error: task file not found: {e.filename}", file=sys.stderr)
+        return 1
+
+    if args.mock:
+        provider = MockProvider(task.eval_cases)
+    else:
+        if not (args.api_key or os.environ.get("ANTHROPIC_API_KEY")):
+            print(
+                "Error: no Anthropic API key found. Set ANTHROPIC_API_KEY, pass "
+                "--api-key, or use --mock.",
+                file=sys.stderr,
+            )
+            return 1
+        provider = AnthropicProvider(api_key=args.api_key)
 
     baseline = run_eval_set(provider, task.baseline_model, task.prompt_template, task.eval_cases)
     candidate_spec = optimizer.generate_candidate(task)
